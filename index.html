@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Selamat Bertambah Usia SiPemilik Januari</title>
@@ -10,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
+        /* Default Styles */
         body {
             font-family: 'Poppins', sans-serif;
             color: #fff;
@@ -142,10 +142,55 @@
             font-size: 1em;
         }
         .closing-img {
-            width: 50%; /* Set image to half its original size */
+            width: 50%;
             height: auto;
             border-radius: 10px;
             margin-top: 10px;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            body {
+                font-size: 16px;
+                padding: 10px;
+            }
+
+            header img {
+                max-width: 60%;
+            }
+
+            .password-container input {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .password-container button {
+                width: 100%;
+            }
+
+            .content {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                font-size: 14px;
+            }
+
+            header img {
+                max-width: 80%;
+            }
+
+            .image-left {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .image-left img {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
         }
     </style>
 </head>
@@ -232,57 +277,4 @@
             </div>
             <iframe src="https://open.spotify.com/embed/playlist/0M7XzPuReKVEfWaDOgJ6gp?si=32a7fc837dec4d2e" width="100%" height="380" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
             <div>
-                <button class="btn" onclick="previousPage('spotify-page', 'prayers-page')">Back</button>
-                <button class="btn" onclick="nextPage('spotify-page', 'closing-page')">Next</button>
-            </div>
-        </div>
-
-        <!-- Closing -->
-        <div id="closing-page" class="hidden content">
-            <h2>Thank You for Being You</h2>
-            <img src="closing_image.jpg" alt="Thank you image" class="closing-img">
-            <p>Terimakasih udah ga pergi dari perempuan berantakan ini kak...</p>
-            <div>
-                <button class="btn" onclick="previousPage('closing-page', 'spotify-page')">Back</button>
-                <button class="btn" onclick="finishJourney()">Selesai</button>
-            </div>
-        </div>
-    </main>
-
-    <footer>
-        <p>&copy; 2025 Our Journey. Made with love.</p>
-    </footer>
-
-    <script>
-        function checkPassword() {
-            const password = document.getElementById('password').value;
-            const correctPassword = '382024';
-            if (password === correctPassword) {
-                document.getElementById('password-page').classList.add('hidden');
-                document.getElementById('meeting-page').classList.remove('hidden');
-            } else {
-                document.getElementById('error-message').style.display = 'block';
-            }
-        }
-
-        function nextPage(currentPage, nextPage) {
-            document.getElementById(currentPage).classList.add('hidden');
-            document.getElementById(nextPage).classList.remove('hidden');
-        }
-
-        function previousPage(currentPage, previousPage) {
-            document.getElementById(currentPage).classList.add('hidden');
-            document.getElementById(previousPage).classList.remove('hidden');
-        }
-
-        function finishJourney() {
-            // Hide all pages and reset the journey back to the beginning
-            document.getElementById('closing-page').classList.add('hidden');
-            document.getElementById('password-page').classList.remove('hidden');
-            // Clear any previous password input and errors
-            document.getElementById('password').value = '';
-            document.getElementById('error-message').style.display = 'none';
-        }
-    </script>
-</body>
-</html>
+                <button class="btn" onclick="previousPage('spotify-page', '

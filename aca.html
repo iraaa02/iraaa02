@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Untuk Alan Cahya</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+body{
+margin:0;
+font-family:'Poppins',sans-serif;background:url('background.jpg') center/cover no-repeat;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+color:white;
+}
+
+h2{
+font-size:30px;
+font-weight:700;
+letter-spacing:1px;
+}
+
+h3{
+font-size:22px;
+font-weight:600;
+}
+
+p{
+font-size:16px;
+line-height:1.7;
+}
+
+.container{
+width:90%;
+max-width:700px;
+background:rgba(0,0,0,.65);
+padding:20px;
+border-radius:20px;
+text-align:center;
+}
+
+.card{display:none}
+.card.active{display:block}
+
+button{
+padding:12px 20px;
+border:none;
+border-radius:30px;
+background:black;
+color:white;
+cursor:pointer;
+margin:8px;
+}
+
+input{
+padding:12px;
+width:70%;
+border-radius:10px;
+border:none;
+text-align:center;
+}
+
+img{
+width:250px;
+max-width:80%;
+border-radius:15px;
+filter:blur(20px);
+transition:1.5s;
+}
+
+img.show{
+filter:blur(0);
+}
+.gallery{
+display:flex;
+gap:10px;
+overflow-x:auto;
+padding:10px;
+}
+
+.gallery img{
+width:180px;
+height:220px;
+object-fit:cover;
+border-radius:15px;
+filter:none;
+}
+
+video{
+width:100%;
+border-radius:15px;
+}
+
+canvas{
+background:#222;
+border-radius:50%;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgm" autoplay loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+
+<!-- LOGIN -->
+<div id="login" class="card active">
+<h2>🔐 Login</h2>
+
+<input id="code"
+type="password"
+autocomplete="new-password"
+placeholder="Masukkan kode">
+
+<br>
+
+<button onclick="login()">Masuk</button>
+
+<p id="status"></p>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" class="card">
+<h2>🤖 Analisa Sistem</h2>
+
+<p id="question"></p>
+
+<button onclick="nextQuestion()">Iya</button>
+<button onclick="nextQuestion()">Sangat Iya</button>
+</div>
+
+<!-- LOADING -->
+<div id="loading" class="card">
+<h2>⏳ Sedang Menganalisa...</h2>
+<p id="percent">0%</p>
+</div>
+
+<!-- HASIL -->
+<div id="foto" class="card">
+
+<h2>✨ Hasil Analisa</h2>
+
+<img id="fotoAlan" src="foto.jpeg">
+
+<h3>Nama : Alan Cahya</h3>
+
+<p>Umur : 28 Tahun</p>
+
+<p>
+Terdeteksi manusia ini suka bikin orang lain kesal<br>
+
+</p>
+
+<button onclick="show('pap')">
+Lanjut
+</button>
+
+</div>
+
+<div id="pap" class="card">
+
+<h2>📸 Dokumentasi Manusia Langka</h2>
+
+<p>Beberapa foto berhasil ditemukan sistem 👀</p>
+
+<div class="gallery">
+
+<img src="foto1.jpeg">
+<img src="foto2.jpeg">
+<img src="foto3.jpeg">
+<img src="foto4.jpeg">
+<img src="foto5.jpeg">
+<img src="foto6.jpeg">
+<img src="foto7.jpeg">
+<img src="foto8.jpeg">
+<img src="foto9.jpeg">
+<img src="foto10.jpeg">
+<img src="foto11.jpeg">
+<img src="foto12.jpeg">
+
+
+
+</div>
+
+<button onclick="show('video')">
+Lanjut
+</button>
+
+</div>
+<!-- VIDEO -->
+<div id="video" class="card">
+
+<h2>🎥 Video Template</h2>
+
+<video controls>
+<source src="video.mp4" type="video/mp4">
+</video>
+
+<button onclick="show('ucapan')">
+Lanjut
+</button>
+
+</div>
+
+<!-- UCAPAN -->
+<div id="ucapan" class="card">
+
+<h2>💌 Selamat Ulang Tahun</h2>
+
+<p>
+Selamat ulang tahun Alan Cahya 🎂
+<br><br>
+Ga banyak doa, karna cukup Allah sama 
+yang mendoakan saja yang tau. Cuma mau bilang, terimaksih
+untuk hal baik beberapa bulan terakhir ini. Semoga 
+segala yang baik selalu menghampiri.
+</p>
+
+<button onclick="show('spin')">
+Lanjut
+</button>
+
+</div>
+
+<!-- SPIN -->
+<div id="spin" class="card">
+
+<h2>🎰 Spin Hadiah</h2>
+
+<canvas id="wheel" width="250" height="250"></canvas>
+
+<br>
+
+<button onclick="spinGift()">
+PUTAR
+</button>
+
+<p id="hasil"></p>
+
+</div>
+
+<!-- FINAL -->
+<div id="final" class="card">
+
+<h2>🎁 Selamat!</h2>
+
+<p id="hadiah"></p>
+
+<button onclick="location.reload()">
+Main Lagi
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+const PASSWORD="2702";
+
+const questions=[
+"Apakah orang ini suka bikin orang bingung?",
+"Apakah orang ini random tanpa sebab?",
+"Apakah orang ini suka bercanda saat serius?",
+"Apakah orang ini kadang bikin kesal?",
+"Apakah orang ini diam-diam perhatian?"
+];
+
+let q=0;
+
+window.addEventListener("load",()=>{
+document.getElementById("code").value="";
+});
+
+function show(id){
+document.querySelectorAll(".card")
+.forEach(c=>c.classList.remove("active"));
+
+document.getElementById(id)
+.classList.add("active");
+}
+
+function login(){
+
+document.getElementById("bgm").play();
+
+
+let v=document.getElementById("code").value;
+
+if(v===PASSWORD){
+
+q=0;
+
+show("quiz");
+
+document.getElementById("question")
+.innerText=questions[q];
+
+}else{
+
+document.getElementById("status")
+.innerText="Password Salah, jadi ga bisa buka 😆";
+
+}
+
+}
+
+function nextQuestion(){
+
+q++;
+
+if(q<questions.length){
+
+document.getElementById("question")
+.innerText=questions[q];
+
+}else{
+
+startLoading();
+
+}
+
+}
+
+function startLoading(){
+
+show("loading");
+
+let p=0;
+
+let interval=setInterval(()=>{
+
+p+=Math.floor(Math.random()*8)+2;
+
+document.getElementById("percent")
+.innerText=p+"%";
+
+if(p>=100){
+p=100;
+document.getElementById("percent").innerText="100%";
+
+clearInterval(interval);
+
+show("foto");
+
+setTimeout(()=>{
+document.getElementById("fotoAlan")
+.classList.add("show");
+},500);
+
+}
+
+},50);
+
+}
+
+const hadiahList=[
+"☕ diraktir Kopi",
+"🍽️ ditraktir Makan",
+"🎬 nonton bareng",
+"🚶 Boleh minta apa aja asalkan wajar"
+];
+
+const canvas=document.getElementById("wheel");
+const ctx=canvas.getContext("2d");
+
+function draw(){
+
+let c=125,r=120;
+
+for(let i=0;i<hadiahList.length;i++){
+
+let a=(i/hadiahList.length)*Math.PI*2;
+
+ctx.beginPath();
+ctx.moveTo(c,c);
+
+ctx.fillStyle=i%2?"#444":"#222";
+
+ctx.arc(c,c,r,a,a+(Math.PI*2/hadiahList.length));
+
+ctx.fill();
+
+}
+
+}
+
+draw();
+
+function spinGift(){
+
+let randomDeg = 3600 + Math.floor(Math.random()*720);
+
+canvas.style.transition =
+"transform 4s cubic-bezier(0.17,0.67,0.12,0.99)";
+
+canvas.style.transform =
+`rotate(${randomDeg}deg)`;
+
+let hadiah =
+hadiahList[
+Math.floor(Math.random()*hadiahList.length)
+];
+
+setTimeout(()=>{
+
+document.getElementById("hasil")
+.innerText="🎉 "+hadiah;
+
+setTimeout(()=>{
+
+document.getElementById("hadiah")
+.innerText=hadiah;
+
+show("final");
+
+},1000);
+
+},4000);
+
+}
+</script>
+
+</body>
+</html>
